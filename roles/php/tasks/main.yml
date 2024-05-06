@@ -1,0 +1,13 @@
+---
+- name: Install PHP and extensions
+  apt:
+    name:
+      - php
+      - php-mysql
+      - php-fpm
+    state: present
+    update_cache: yes
+- name: Déployer le script de test de connexion PHP
+  template:
+    src: templates/connection.php.j2
+    dest: /srv/app/connection_test.php

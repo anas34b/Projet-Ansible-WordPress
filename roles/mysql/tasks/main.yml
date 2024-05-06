@@ -1,0 +1,65 @@
+# ---
+# - name: Install MySQL Server
+#   apt:
+#     name: default-mysql-server
+#     state: present
+#     update_cache: yes
+
+# - name: Start MySQL Service
+#   service:
+#     name: mysql
+#     state: started
+#     enabled: yes
+
+# - name: Create a new database
+#   mysql_db:
+#     name: "{{ db_name }}"
+#     state: present
+
+# - name: Create a database user
+#   mysql_user:
+#     name: "{{ db_user }}"
+#     login_user: root
+#     login_password: ""
+#     password: ""
+#     priv: "{{ db_name }}.*:ALL"
+#     state: present
+#     login_unix_socket: /var/run/mysqld/mysqld.sock
+- name: Installer le serveur MySQL
+  apt:
+    name: default-mysql-server
+    state: present
+    update_cache: yes
+
+- name: Démarrer le service MySQL
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+# - name: Sécuriser l'installation MySQL
+#   ignore_errors: yes
+#   mysql_user:
+#     login_user: "root"
+#     login_password: ""
+#     login_unix_socket: "/var/run/mysqld/mysqld.sock"
+#     name: "root"
+#     password: "{{ mysql_root_password }}"
+#     host_all: true
+#   when: mysql_root_password != ""
+
+- name: Créer une nouvelle base de données
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: Créer un utilisateur de base de données
+  mysql_user:
+    name: "{{ db_user }}"
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+    password: "{{ db_user_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    state: present

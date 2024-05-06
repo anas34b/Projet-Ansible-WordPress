@@ -1,0 +1,16 @@
+<?php
+$servername = "localhost";
+$username = "{{ db_user }}";
+$password = "{{ db_user_password }}";
+$dbname = "{{ db_name }}";
+echo "Bonjour, normalement ça marche.\n";
+// Créer la connexion
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Vérifier la connexion
+if ($conn->connect_error) {
+    die("Échec de la connexion : " . $conn->connect_error);
+}
+echo "Connexion réussie";
+$conn->close();
+?>

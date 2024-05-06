@@ -1,0 +1,39 @@
+####################################################################
+# !!! REMINDER !!!                                                 #
+# Don't forget to run `manala up` each time you update this file ! #
+####################################################################
+
+manala:
+    recipe: lazy.ansible
+
+###########
+# Project #
+###########
+
+project:
+    name: lpdevops
+
+##########
+# System #
+##########
+
+system:
+    ansible:
+        version: 2.15.5
+        config: |
+            [defaults]
+            control_path_dir = /tmp/ansible/cp
+            collections_paths = ~/../../../collections
+            roles_path = ~/../../../roles
+            [privilege_escalation]
+            become = True
+            become_flags = -H -S
+            [ssh_connection]
+            control_path = /tmp/%%h-%%r
+    ssh:
+        config: |
+            Host *
+                User debian
+                ForwardAgent yes
+                StrictHostKeyChecking no
+                UserKnownHostsFile /dev/null
